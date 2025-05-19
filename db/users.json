@@ -1,26 +1,32 @@
 [
   {
-    "id": 1,
-    "nombre": "Pakita",
-    "email": "pakita@gmail.com",
-    "edad": 21
-  },
-  {
     "id": 2,
-    "nombre": "JoseJose",
-    "email": "josejose@gmail.com",
-    "edad": 23
-  },
-  {
-    "id": 3,
-    "nombre": "tuabuela",
-    "email": "tuabuela@gmail.com",
-    "edad": 102
+    "nombre": "Thomas",
+    "email": "marcos@gmail.com",
+    "edad": "6"
   },
   {
     "id": 5,
     "nombre": "agus",
     "email": "marcos@gmail.com",
     "edad": "22"
+  },
+  {
+    "id": 6,
+    "nombre": "saripreciosa",
+    "email": "maggkali4214@gmail.com",
+    "edad": "777"
+  },
+  {
+    "id": 7,
+    "nombre": "Thomas",
+    "email": "mos@gmail.com",
+    "edad": "65"
+  },
+  {
+    "id": 8,
+    "nombre": "hugo",
+    "email": "maggkali4214@gmail.com",
+    "edad": "543"
   }
 ]
