@@ -85,21 +85,46 @@ const UsersView = () => {
                     <td className="px-4 py-2 border-b">{u.email}</td>
                     <td className="px-4 py-2 border-b">{u.edad}</td>
                     <td className="px-4 py-2 border-b text-center">
-                      <div className="flex justify-center gap-2">
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          className="px-4 py-2 bg-green-500 text-white rounded-lg shadow hover:bg-green-600"
-                          onClick={() => navigate(`/usuarios/editar/${u.id}`)}
-                        >
-                          Editar
-                        </motion.button>
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          className="px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600"
-                          onClick={() => handleDelete(u.id)}
-                        >
-                          Eliminar
-                        </motion.button>
+                      <div className="flex justify-center gap-4">
+                        {/* Botón editar con tooltip */}
+                        <div className="relative group">
+                          <motion.button
+                            whileHover={{ scale: 1.25 }}
+                            className="px-4 py-2 text-green-500"
+                            onClick={() => navigate(`/usuarios/editar/${u.id}`)}
+                          >
+                            <i className="pi pi-pencil"></i>
+                          </motion.button>
+                          <motion.div
+                            initial={{ opacity: 0, y: 0 }}
+                            animate={{ opacity: 1, y: -8 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute z-10 hidden group-hover:block px-3 py-1 text-xs text-white bg-gray-500 rounded shadow-md left-1/2 -translate-x-1/2 -top-8"
+                          >
+                            Editar usuario
+                          </motion.div>
+                        </div>
+
+                        {/* Botón eliminar con tooltip */}
+                        <div className="relative group">
+                          <motion.button
+                            whileHover={{ scale: 1.25 }}
+                            className="px-4 py-2 text-red-500"
+                            onClick={() => handleDelete(u.id)}
+                          >
+                            <i className="pi pi-trash"></i>
+                          </motion.button>
+                          <motion.div
+                            initial={{ opacity: 0, y: 0 }}
+                            animate={{ opacity: 1, y: -8 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute z-10 hidden group-hover:block px-3 py-1 text-xs text-white bg-gray-500 rounded shadow-md left-1/2 -translate-x-1/2 -top-8"
+                          >
+                            Eliminar usuario
+                          </motion.div>
+                        </div>
                       </div>
                     </td>
                   </tr>
