@@ -93,18 +93,6 @@ const ProductoForm = () => {
               required
             />
           </div>
-          {isEditing && (
-            <div>
-              <label className="block text-green-700 font-medium mb-2">Fecha de Carga</label>
-              <input
-                type="text"
-                name="fechaCarga"
-                value={formData.fechaCarga || ""}
-                readOnly
-                className="w-full px-4 py-2 border border-green-300 rounded-lg bg-gray-100 focus:outline-none"
-              />
-            </div>
-          )}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
