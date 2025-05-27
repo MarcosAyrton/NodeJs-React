@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     const storedName = localStorage.getItem("userName");

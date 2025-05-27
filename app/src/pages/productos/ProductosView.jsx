@@ -78,7 +78,6 @@ const ProductosView = () => {
                 <th className="px-4 py-2 text-left">Nombre</th>
                 <th className="px-4 py-2 text-left">Precio</th>
                 <th className="px-4 py-2 text-left">Stock</th>
-                <th className="px-4 py-2 text-left">Fecha de Carga</th>
                 <th className="px-4 py-2 text-center">Acciones</th>
               </tr>
             </thead>
@@ -89,7 +88,6 @@ const ProductosView = () => {
                     <td className="px-4 py-2 border-b">{p.nombre}</td>
                     <td className="px-4 py-2 border-b">{p.precio}</td>
                     <td className="px-4 py-2 border-b">{p.stock}</td>
-                    <td className="px-4 py-2 border-b">{p.fechaCarga}</td>{" "}
                     <td className="px-4 py-2 border-b text-center">
                       <div className="flex justify-center gap-2">
                         <motion.button
