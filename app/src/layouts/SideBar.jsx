@@ -1,11 +1,11 @@
-const SideBar = () => {
-    return(
-        <div>
-            <p>
-                hola mundo
-            </p>
-        </div>
-    )
-}
+import { motion } from "framer-motion";
 
-export default SideBar
+const SideBar = () => {
+  return (
+    <div>
+      <motion.p initial={{ y: -200 }}>hola mundo putito</motion.p>
+    </div>
+  );
+};
+
+export default SideBar;

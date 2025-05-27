@@ -1,75 +1,79 @@
-const fs = require("fs");
-const path = require("path");
-const filePath = path.join(__dirname, "../db/productos.json");
+const Producto = require('../models/Producto');
 
-const llamarProductos = () => {
-  const data = fs.readFileSync(filePath, "utf8");
-  return JSON.parse(data);
-};
-
-let productos = llamarProductos();
-
-const guardarProductos = (productos) => {
-  fs.writeFileSync(filePath, JSON.stringify(productos, null, 2));
-};
-
-// METODOS
-
-const getProductos = (req, res) => {
-  res.json({ data: productos, status: 200, message: "productos obtenidos correctamente" });
-};
-
-const getOneProducto = (req, res) => {
-  const producto = productos.find((p) => p.id === parseInt(req.params.id));
-  if (!producto) return res.json({ status: 404, message: "producto no encontrado" });
-  res.json({ status: 200, message: "producto encontrado", data: producto });
-};
-
-const createProducto = (req, res) => {
-  const formatDate = (date) => {
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
-
-  const nuevoProducto = {
-    id: productos.length > 0 ? productos[productos.length - 1].id + 1 : 1,
-    nombre: req.body.nombre,
-    precio: req.body.precio,
-    stock: req.body.stock,
-    fechaCarga: formatDate(new Date()), // Fecha de carga en formato DD/MM/YYYY
-  };
-  productos.push(nuevoProducto);
-  guardarProductos(productos);
-  res.json({ status: 201, message: "producto creado correctamente", data: nuevoProducto });
-};
-
-const updateProducto = (req, res) => {
-  const { nombre, precio, stock, fechaCarga } = req.body;
-  const producto = productos.find((p) => p.id === parseInt(req.params.id));
-  if (!producto) {
-    return res.json({ status: 404, message: "producto no encontrado" });
+// GET: todos los productos
+const getProductos = async (req, res) => {
+  try {
+    const productos = await Producto.findAll();
+    res.json({ data: productos, status: 200, message: "Productos obtenidos correctamente" });
+  } catch (error) {
+    res.status(500).json({ status: 500, message: "Error al obtener productos", error });
   }
-  producto.nombre = nombre;
-  producto.precio = precio;
-  producto.stock = stock;
-  producto.fechaCarga = fechaCarga;
-  guardarProductos(productos);
-  res.json({ status: 200, message: "producto editado correctamente", data: producto });
 };
 
-const deleteProducto = (req, res) => {
-  const id = parseInt(req.params.id);
-  const producto = productos.find((p) => p.id === id);
-  if (!producto) {
-    return res.status(404).json({ error: "Producto no encontrado" });
+// GET: un producto por ID
+const getOneProducto = async (req, res) => {
+  try {
+    const producto = await Producto.findByPk(req.params.id);
+    if (!producto) {
+      return res.status(404).json({ status: 404, message: "Producto no encontrado" });
+    }
+    res.json({ status: 200, message: "Producto encontrado", data: producto });
+  } catch (error) {
+    res.status(500).json({ status: 500, message: "Error al obtener el producto", error });
   }
+};
 
-  productos = productos.filter((p) => p.id !== id);
+// POST: crear producto
+const createProducto = async (req, res) => {
+  try {
+    const { nombre, precio, stock } = req.body;
 
-  guardarProductos(productos);
-  res.json({ mensaje: `Producto con ID ${id} eliminado correctamente` });
+    const nuevoProducto = await Producto.create({
+      nombre,
+      precio,
+      stock,
+      fecha_carga: new Date(), 
+    });
+
+    res.status(201).json({ status: 201, message: "Producto creado correctamente", data: nuevoProducto });
+  } catch (error) {
+    res.status(500).json({ status: 500, message: "Error al crear el producto", error });
+  }
+};
+
+// PUT: actualizar producto
+const updateProducto = async (req, res) => {
+  try {
+    const { nombre, precio, stock, fecha_carga } = req.body;
+    const producto = await Producto.findByPk(req.params.id);
+
+    if (!producto) {
+      return res.status(404).json({ status: 404, message: "Producto no encontrado" });
+    }
+
+    await producto.update({ nombre, precio, stock, fecha_carga });
+
+    res.json({ status: 200, message: "Producto actualizado correctamente", data: producto });
+  } catch (error) {
+    res.status(500).json({ status: 500, message: "Error al actualizar el producto", error });
+  }
+};
+
+// DELETE: eliminar producto
+const deleteProducto = async (req, res) => {
+  try {
+    const producto = await Producto.findByPk(req.params.id);
+
+    if (!producto) {
+      return res.status(404).json({ status: 404, message: "Producto no encontrado" });
+    }
+
+    await producto.destroy();
+
+    res.json({ status: 200, message: `Producto con ID ${req.params.id} eliminado correctamente` });
+  } catch (error) {
+    res.status(500).json({ status: 500, message: "Error al eliminar el producto", error });
+  }
 };
 
 module.exports = {
